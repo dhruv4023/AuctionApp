@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap");
+
+html,
+body,
+#root,
+.app {
+  height: 100%;
+  width: 100%;
+  font-family: "Rubik", sans-serif;
+}
+
+.x {
+  color: #e6fbff #ccf7fe #99eefd #66e6fc #33ddfb #00d5fa #00a0bc #006b7d #00353f
+    #001519;
+}
+::-webkit-scrollbar {
+  position: absolute;
+  width: 1px;
+}
