@@ -1,3 +1,4 @@
+// Fetches data for ended auctions
 export const getAuctionEndedData = async (startIndex, limit) => {
   const res = await fetch(
     `${process.env.REACT_APP_AUCTION_SERVER}/api/auction/get/ended/${startIndex}/${limit}`,
@@ -10,6 +11,7 @@ export const getAuctionEndedData = async (startIndex, limit) => {
   return data;
 };
 
+// Fetches data for upcoming auctions
 export const getAuctionUpcomingData = async (startIndex, limit) => {
   const res = await fetch(
     `${process.env.REACT_APP_AUCTION_SERVER}/api/auction/get/upcoming/${startIndex}/${limit}`,
@@ -22,6 +24,7 @@ export const getAuctionUpcomingData = async (startIndex, limit) => {
   return data;
 };
 
+// Fetches data for ongoing auctions
 export const getAuctionOnGoingData = async (startIndex, limit) => {
   const res = await fetch(
     `${process.env.REACT_APP_AUCTION_SERVER}/api/auction/get/ongoing/${startIndex}/${limit}`,
@@ -33,8 +36,9 @@ export const getAuctionOnGoingData = async (startIndex, limit) => {
   const data = await res.json();
   return data;
 };
-export const get_auctions_by_user = async (token,startIndex, limit) => {
-  // console.log(token)
+
+// Fetches auctions by a specific user, requiring an authentication token
+export const get_auctions_by_user = async (token, startIndex, limit) => {
   const res = await fetch(
     `${process.env.REACT_APP_AUCTION_SERVER}/api/auction/get/${startIndex}/${limit}`,
     {
@@ -53,6 +57,7 @@ export const get_auctions_by_user = async (token,startIndex, limit) => {
   return data;
 };
 
+// Sends a request to start a new auction
 export const startNewAuction = async (values) => {
   const savedResponse = await fetch(
     `${process.env.REACT_APP_AUCTION_SERVER}/api/auction/add/`,

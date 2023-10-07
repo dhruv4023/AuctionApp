@@ -9,13 +9,17 @@ import FlexEvenly from "Components/FlexEvenly";
 import BasicTable from "./BidTable";
 import Loading from "Components/Loader/Loading";
 
+// Define the limit for the number of bids to retrieve at a time
 const limit = 7;
+
 const Bids = ({ AID, bidList, setBidList }) => {
   const [endOdList, setEndOdList] = useState(false);
   const [startIndex, setStartIndex] = useState(limit);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setLoading(true);
+    // Fetch the initial batch of bids for the specified auction
     !bidList &&
       get_bid_list_data(AID, 0, limit)
         .then((dt) => {
@@ -27,36 +31,42 @@ const Bids = ({ AID, bidList, setBidList }) => {
 
   const refresh = () => {
     setLoading(true);
+    // Fetch more bids for the specified auction, starting from the current startIndex
     get_bid_list_data(AID, startIndex, limit)
       .then((dt) => {
         setBidList([...bidList, ...dt]);
         setStartIndex(startIndex + limit);
+        // If the number of retrieved bids is less than the limit, it means all bids have been retrieved
         dt.length !== limit && setEndOdList(true);
         setLoading(false);
       })
       .catch((e) => setLoading(false));
   };
-  //   console.log(bidList);
+
   return (
     <WidgetWrapper>
       <FlexBetween>
         <MyTitle txt={"Bids"} />
-        <Tooltip title="Retrive more bids data">
+        {/* Button to refresh and retrieve more bids */}
+        <Tooltip title="Retrieve more bids data">
           <IconButton onClick={refresh}>
             <Refresh />
           </IconButton>
         </Tooltip>
       </FlexBetween>
       {loading ? (
-        <>
-          <Loading />
-        </>
+        // Display a loading indicator while data is being fetched
+        <Loading />
       ) : (
         <>
+          {/* Render the list of bids using the PrintList component */}
           <PrintList data={bidList} />
         </>
       )}
-      <FlexEvenly my={5}>{endOdList && <b>All Bids retrived</b>}</FlexEvenly>
+      <FlexEvenly my={5}>
+        {/* Display a message when all bids have been retrieved */}
+        {endOdList && <b>All Bids retrieved</b>}
+      </FlexEvenly>
     </WidgetWrapper>
   );
 };

@@ -22,7 +22,9 @@ import {
 import { SelectLocation } from "../../Components/MyComponents";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
 import Loading from "Components/Loader/Loading";
+
 const Form = ({ pgType, editProfile, user }) => {
+  // Initial values for registration and login
   const initialValuesRegister = {
     username: "",
     firstName: "",
@@ -33,7 +35,6 @@ const Form = ({ pgType, editProfile, user }) => {
     picPath: "",
     location: {
       state: "Gujarat",
-      // district: "",
       city: "",
       pincode: "",
     },
@@ -42,6 +43,7 @@ const Form = ({ pgType, editProfile, user }) => {
     email: "",
     password: "",
   };
+
   const { palette } = useTheme();
 
   const [pageType, setPageType] = useState(pgType);
@@ -50,48 +52,62 @@ const Form = ({ pgType, editProfile, user }) => {
   const isLogin = pageType === "Login";
   const isRegister = pageType === "Register";
 
+  // Set initial values based on page type
   const [values, setValues] = useState(
     isLogin ? initialValuesLogin : editProfile ? user : initialValuesRegister
   );
+
+  // Handle form field changes
   const onChangehandle = (val, name) => {
-    // e.preventDefault();
-    // console.log(name,val);
     let tmp = { ...values };
     tmp[name] = val;
     setValues(tmp);
   };
+
+  // Handle image change
   const imgChangeHandl = (fl, name) => {
     let tmp = values;
     tmp[name] = fl;
     setValues(tmp);
   };
+
   const token = useSelector((s) => s.token);
 
   const [userNames, setUserNames] = useState();
+
+  // Handle form submission
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (editProfile) values["_id"] = true;
-    if (isLogin) await login(values, dispatch, setLogin, navigate);
-    else if (userNames?.includes(values.username))
-      alert("Plz Select Unique Username");
-    else if (editProfile && values.email === user.email) {
+
+    if (isLogin) {
+      // Handle login
+      await login(values, dispatch, setLogin, navigate);
+    } else if (userNames?.includes(values.username)) {
+      alert("Please select a unique username.");
+    } else if (editProfile && values.email === user.email) {
+      // Handle profile update
       updateProfile(values, dispatch, token, navigate);
-    } else navigate("/verifyemail", { state: values });
-    // else if (isRegister && !editProfile)
-    //   register(values);
-    // } else if (editProfile) {
-    //   updateProfile(values, dispatch, token, navigate);
-    // }
+    } else {
+      // Navigate to email verification if registering
+      navigate("/verifyemail", { state: values });
+    }
   };
+
+  // Reset form values
   const resetForm = () => {
     setValues(!isLogin ? initialValuesLogin : initialValuesRegister);
   };
 
   const [getUserNamesOnce, setGetUserNamesOnce] = useState(false);
+
   useEffect(() => {
+    // Get user names for registration once
     !editProfile && isRegister && getUserNames(setUserNames);
   }, [getUserNamesOnce]);
+
   const [addPic, setAddPic] = useState(false);
+
   return (
     <form onSubmit={handleFormSubmit} style={{ width: "100%" }}>
       {isRegister && (
@@ -177,8 +193,8 @@ const Form = ({ pgType, editProfile, user }) => {
               </IconButton>
               <Typography flexGrow={"1"}>
                 {addPic
-                  ? "click to off Picture Option"
-                  : "click to on Picture Option"}
+                  ? "Click to turn off Picture Option"
+                  : "Click to turn on Picture Option"}
               </Typography>
             </FlexBetween>
             {addPic && (

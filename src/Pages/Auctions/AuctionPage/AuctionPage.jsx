@@ -14,11 +14,22 @@ import CountDown from "Components/MyCompoenents/CountDown";
 import moment from "moment/moment";
 
 const AuctionPage = () => {
+  // Get the auction ID from the URL using the useParams hook
   const { AID } = useParams();
+
+  // State to store auction data
   const [auxdata, setAuxdata] = useState();
+
+  // State to store bid list
   const [bidList, setBidList] = useState();
+
+  // State to trigger a refresh when bids are added
   const [refresh, setRefresh] = useState(0);
+
+  // State to control the countdown timer
   const [countDown, setCountDown] = useState(false);
+
+  // Fetch auction data when the component mounts and when the refresh state changes
   useEffect(() => {
     AID &&
       get_auction_data_by_ID(AID).then((dt) => {
@@ -26,6 +37,7 @@ const AuctionPage = () => {
         setCountDown(new Date(dt[0]?.start_time) > new Date());
       });
   }, [AID, refresh]);
+
   return (
     <>
       <WidgetsOnPage
@@ -33,12 +45,15 @@ const AuctionPage = () => {
         rightComponent={
           <>
             {countDown ? (
+              // Display countdown timer if the auction has not started yet
               <CountDown targetTimestamp={auxdata?.start_time} />
             ) : auxdata ? (
               <>
                 {new Date(auxdata?.end_time) > new Date() ? (
+                  // Display bids component if the auction is ongoing
                   <Bids bidList={bidList} setBidList={setBidList} AID={AID} />
                 ) : (
+                  // Display auction end information if the auction has ended
                   <>
                     <h2>Auction Ended {moment(auxdata?.end_time).fromNow()}</h2>
                     <>
@@ -51,6 +66,7 @@ const AuctionPage = () => {
                 )}
               </>
             ) : (
+              // Display loading component while fetching data
               <Loading />
             )}
           </>
@@ -59,9 +75,11 @@ const AuctionPage = () => {
           <WidgetWrapper>
             {auxdata ? (
               <>
+                {/* Display auction details */}
                 <DisplayData data={auxdata} />
               </>
             ) : (
+              // Display loading component while fetching data
               <>
                 <Loading />
               </>
@@ -69,6 +87,7 @@ const AuctionPage = () => {
           </WidgetWrapper>
         }
       />
+      {/* Display add new bid component if the auction is ongoing */}
       {new Date(auxdata?.start_time) < new Date() &&
         new Date(auxdata?.end_time) > new Date() && (
           <AddNewBid
@@ -84,6 +103,7 @@ const AuctionPage = () => {
 
 export default AuctionPage;
 
+// Display auction details component
 const DisplayData = ({ data }) => {
   return (
     <FlexBetween flexDirection={"column"}>
@@ -101,6 +121,7 @@ const DisplayData = ({ data }) => {
   );
 };
 
+// Display auction detail item
 const NItem = ({ label, item }) => {
   return (
     <FlexBetween gap={2} width={"100%"} fontSize={"1rem"}>

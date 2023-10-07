@@ -6,85 +6,74 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { register, sendMail, updateProfile } from "./LoginRegisterChangePass";
 import { useDispatch, useSelector } from "react-redux";
+
 const EmailVerification = () => {
+  // Get the current location and navigation function
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Redux store dispatch
   const dispatch = useDispatch();
   const values = location.state;
-  // console.log(values)
-  // console.log(location)
   const { palette } = useTheme();
+
+  // Redirect to the home page if no values are present
   useEffect(() => {
     !values && navigate("/", { state: null });
   });
+
+  // State variables for OTP handling
   const [sentOtp, setSentOtp] = useState();
-  //;
-  // const sentMail = () => {
-  //   console.log(sentOTP);
-  // };
-  // console.log(values)
   const token = useSelector((s) => s.token);
   const [otp, setOtp] = useState(0);
+
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(otp, sentOtp);
     if (String(otp).trim() === String(sentOtp)) {
       if (values?.page === "changepass") {
+        // Navigate to change password page
         navigate("/changepass", {
           state: { email: values.email, page: "makenewpass" },
         });
       } else if (!values._id) {
+        // Handle registration
         register(values, dispatch, navigate);
         navigate("/login", { state: null });
       } else {
+        // Handle profile update
         updateProfile(values, dispatch, token, navigate);
       }
     } else {
       alert("Invalid OTP");
     }
   };
+
+  // Send OTP email and update UI accordingly
   const sendOtpMail = (otpnum, to_mail) => {
     setSentOtp(otpnum);
     sendMail(to_mail, otpnum);
-    // console.log(otpnum, to_mail);
-    // emailjs
-    //   .send(
-    //     process.env.REACT_APP_MAIL_VERIFY_SERVICE_ID,
-    //     process.env.REACT_APP_MAIL_VERIFY_TEMPLATE_ID,
-    //     {
-    //       name: "dhruv",
-    //       otp: otpnum,
-    //       email: to_mail,
-    //     },
-    //     process.env.REACT_APP_MAIL_VERIFY_PUBLIC_ID
-    //   )
-    //   .catch((e) => {
-    //     // console.log(e);
-    //     alert("Somethings wents wrong Plz Try again later !");
-    //   });
   };
+
+  // State variables and functions for sending OTP
   const [sendOtpBtnVal, setSendOtpBtnVal] = useState("Click here to Send OTP");
   const [disableBtn, setdisableBtn] = useState(false);
   const sendOtpBtn = () => {
     sendOtpMail(Math.floor(Math.random() * 1000000), values.email);
     let sec = 30;
-    setSendOtpBtnVal("didn't received OTP ? send Again ");
+    setSendOtpBtnVal("Didn't receive OTP? Send Again");
     setdisableBtn(true);
     setTimeout(() => {
       setdisableBtn(false);
       clearInterval(interval);
-      setSendOtpBtnVal("Again send");
+      setSendOtpBtnVal("Send Again");
     }, sec * 1000);
     let i = sec;
     const interval = setInterval(() => {
       i--;
-      setSendOtpBtnVal("again send in " + i);
+      setSendOtpBtnVal("Send again in " + i);
     }, 1000);
   };
-  // useEffect(() => {
-  //   sendOtpBtn();
-  // }, [])
 
   return (
     <>

@@ -4,6 +4,7 @@ import FlexBetween from 'Components/FlexBetween'
 import React, { useEffect, useState } from 'react'
 import { changePass } from './LoginRegisterChangePass'
 import { useLocation, useNavigate } from 'react-router-dom';
+
 const ChangePass = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -11,26 +12,31 @@ const ChangePass = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [repass, setRepass] = useState("")
+
     useEffect(() => {
         !values && navigate("/", { state: null });
     });
-    // console.log(email,values)
+
+    // Handle form submission for sending email with OTP
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const values = { email: email, page: "changepass" };
         navigate("/verifyemail", { state: values });
     }
+
+    // Handle form submission for changing password
     const handleFormSubmitChangePass = async (e) => {
         e.preventDefault();
         if (password === repass) {
-            // console.log(values.email,password)
-            changePass({ email:values.email, password })
+            changePass({ email: values.email, password })
             navigate("/login");
         } else {
-            alert("Plz Enter both Password Similar")
+            alert("Please enter both passwords the same")
         }
     }
+
     const { palette } = useTheme();
+
     return (
         <FlexBetween width="100%" flexDirection={"column"}>
             {
@@ -93,7 +99,7 @@ const ChangePass = () => {
                             "&:hover": { color: palette.primary.main },
                         }}
                     >
-                        proceed
+                        Proceed
                     </Button>
                 </form>
             }
@@ -101,4 +107,4 @@ const ChangePass = () => {
     )
 }
 
-export default ChangePass
+export default ChangePass;

@@ -2,34 +2,40 @@ import FlexBetween from "Components/FlexBetween";
 import MyButton from "Components/MyCompoenents/MyButton";
 import { MyTextField } from "Components/MyComponents";
 import React, { useState } from "react";
-import { add_New_Bid } from "../BidsAPI";
+import { add_New_Bid } from "../BidsAPI"; // Imports the function for adding a new bid
 import { useSelector } from "react-redux";
 
 const NewBidForm = ({
-  AID,
-  start_price,
-  user,
-  setRefresh,
-  bidList,
-  setOpenAddPopUp,
+  AID, // Auction ID
+  start_price, // Starting price of the auction
+  user, // Current user information
+  setRefresh, // Function to refresh data after adding a bid
+  bidList, // List of existing bids
+  setOpenAddPopUp, // Function to close the bid pop-up
 }) => {
-  const token = useSelector((s) => s.token);
-  const [Loading, setLoading] = useState(false);
-  const [values, setValues] = useState({ user_id: user._id });
+  const token = useSelector((s) => s.token); // Retrieve the user's token from Redux state
+  const [Loading, setLoading] = useState(false); // State to track loading state while adding a bid
+  const [values, setValues] = useState({ user_id: user._id }); // State to store bid data
+
+  // Function to handle changes in form input fields
   const onChangehandle = (val, name) => {
     let tmp = { ...values };
     tmp[name] = val;
     setValues(tmp);
   };
+
+  // Function to handle form submission
   const onSubmit = (e) => {
     e.preventDefault();
     if (token) {
       setLoading(true);
+      // Call the function to add a new bid using the API
       add_New_Bid(values, AID, token)
         .then(() => {
-          setRefresh(new Date());
+          setRefresh(new Date()); // Refresh data after adding a bid
           setLoading(false);
-          setOpenAddPopUp(false);
+          setOpenAddPopUp(false); // Close the bid pop-up
+          // Add the newly created bid to the bidList with timestamp and user information
           bidList.unshift({
             ...values,
             timestamp: new Date(),
@@ -38,9 +44,10 @@ const NewBidForm = ({
         })
         .catch(() => setLoading(false));
     } else {
-      alert("Login To add bid");
+      alert("Login To add bid"); // Show an alert if the user is not logged in
     }
   };
+
   return (
     <form onSubmit={onSubmit}>
       <FlexBetween flexDirection={"column"} gap={2} my={3}>
@@ -55,4 +62,5 @@ const NewBidForm = ({
     </form>
   );
 };
+
 export default NewBidForm;
