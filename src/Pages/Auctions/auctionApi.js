@@ -33,10 +33,10 @@ export const getAuctionOnGoingData = async (startIndex, limit) => {
   const data = await res.json();
   return data;
 };
-export const get_auctions_by_user = async (token) => {
+export const get_auctions_by_user = async (token,startIndex, limit) => {
   // console.log(token)
   const res = await fetch(
-    `${process.env.REACT_APP_AUCTION_SERVER}/api/auction/get/`,
+    `${process.env.REACT_APP_AUCTION_SERVER}/api/auction/get/${startIndex}/${limit}`,
     {
       method: "GET",
       headers: {

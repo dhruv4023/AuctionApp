@@ -31,14 +31,14 @@ const Auctions = ({ displayIndex }) => {
     } else if (displayIndex === 3) {
       return getAuctionEndedData(s, l);
     } else if (displayIndex === 4) {
-      return get_auctions_by_user(token);
+      return get_auctions_by_user(token,s,l);
     }
   };
   useEffect(() => {
     setLoading(true);
     if (displayIndex != indChg) {
       setIndChg(displayIndex);
-      // console.log(indChg);
+      setStartIndex(limit);
       get_data(0, limit)
         .then((dt) => {
           setData(dt);
@@ -52,7 +52,6 @@ const Auctions = ({ displayIndex }) => {
     console.log(startIndex, limit);
     get_data(startIndex, limit)
       .then((dt) => {
-        console.log(data, dt);
         setData([...data, ...dt]);
         setStartIndex(startIndex + limit);
         dt.length !== limit && setEndOdList(true);
