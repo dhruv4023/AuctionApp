@@ -26,7 +26,6 @@ const AuctionPage = () => {
         setCountDown(new Date(dt[0]?.start_time) > new Date());
       });
   }, [AID, refresh]);
-  console.log(auxdata?.end_time);
   return (
     <>
       <WidgetsOnPage
@@ -40,10 +39,15 @@ const AuctionPage = () => {
                 {new Date(auxdata?.end_time) > new Date() ? (
                   <Bids bidList={bidList} setBidList={setBidList} AID={AID} />
                 ) : (
-                  <h2>
-                    Auction Ended {" "}
-                    {moment(auxdata?.end_time).fromNow()}
-                  </h2>
+                  <>
+                    <h2>Auction Ended {moment(auxdata?.end_time).fromNow()}</h2>
+                    <>
+                      <Divider />
+                      <Box>
+                        <b>WINNER:</b> {auxdata.winner?.name}
+                      </Box>
+                    </>
+                  </>
                 )}
               </>
             ) : (

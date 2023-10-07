@@ -49,7 +49,7 @@ const Auctions = ({ displayIndex }) => {
   }, [displayIndex]);
   const refresh = () => {
     setLoading(true);
-    console.log(startIndex, limit);
+    // console.log(startIndex, limit);
     get_data(startIndex, limit)
       .then((dt) => {
         setData([...data, ...dt]);
