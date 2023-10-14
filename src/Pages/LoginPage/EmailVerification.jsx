@@ -5,11 +5,13 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { register, sendMail, updateProfile } from "./LoginRegisterChangePass";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "Components/Loader/Loading";
 
 const EmailVerification = () => {
   // Get the current location and navigation function
   const location = useLocation();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   // Redux store dispatch
   const dispatch = useDispatch();
@@ -29,6 +31,7 @@ const EmailVerification = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     if (String(otp).trim() === String(sentOtp)) {
       if (values?.page === "changepass") {
         // Navigate to change password page
@@ -46,12 +49,15 @@ const EmailVerification = () => {
     } else {
       alert("Invalid OTP");
     }
+    setLoading(false);
   };
 
   // Send OTP email and update UI accordingly
   const sendOtpMail = (otpnum, to_mail) => {
+    setLoading(true);
     setSentOtp(otpnum);
     sendMail(to_mail, otpnum);
+    setLoading(false);
   };
 
   // State variables and functions for sending OTP
@@ -74,6 +80,7 @@ const EmailVerification = () => {
     }, 1000);
   };
 
+  console.log(loading);
   return (
     <>
       Email OTP Verification
@@ -88,6 +95,7 @@ const EmailVerification = () => {
           />
           <Button
             fullWidth
+            disabled={loading}
             type="submit"
             sx={{
               m: "2rem 0",
@@ -104,6 +112,7 @@ const EmailVerification = () => {
           {sendOtpBtnVal}
         </Button>
       </FlexEvenly>
+      {loading && <Loading />}
     </>
   );
 };

@@ -41,7 +41,7 @@ const Form = ({ pgType, editProfile, user }) => {
   };
 
   const { palette } = useTheme();
-
+  const [loading, setLoading] = useState(false);
   const [pageType, setPageType] = useState(pgType);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -74,6 +74,7 @@ const Form = ({ pgType, editProfile, user }) => {
   // Handle form submission
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (editProfile) values["_id"] = true;
 
     if (isLogin) {
@@ -88,6 +89,7 @@ const Form = ({ pgType, editProfile, user }) => {
       // Navigate to email verification if registering
       navigate("/verifyemail", { state: values });
     }
+    setLoading(false);
   };
 
   // Reset form values
@@ -102,10 +104,91 @@ const Form = ({ pgType, editProfile, user }) => {
     !editProfile && isRegister && getUserNames(setUserNames);
   }, [getUserNamesOnce]);
 
-  const [addPic, setAddPic] = useState(false);
-
   return (
     <form onSubmit={handleFormSubmit} style={{ width: "100%" }}>
+      {loading ? (
+        <Loading />
+      ) : (
+        <FormFields
+          onChangehandle={onChangehandle}
+          values={values}
+          isRegister={isRegister}
+          userNames={userNames}
+          isLogin={isLogin}
+        />
+      )}
+      <Box>
+        <Button
+          fullWidth
+          type="submit"
+          disabled={loading}
+          sx={{
+            m: "2rem 0",
+            p: "1rem",
+            backgroundColor: palette.primary.main,
+            color: palette.background.alt,
+            "&:hover": { color: palette.primary.main },
+          }}
+        >
+          {isLogin ? "LOGIN" : editProfile ? "Save Changes" : "REGISTER"}
+        </Button>
+        {!editProfile && (
+          <Typography
+            onClick={() => {
+              setPageType(isLogin ? "Register" : "Login");
+              setGetUserNamesOnce(true);
+              resetForm();
+            }}
+            sx={{
+              textDecoration: "underline",
+              color: palette.primary.main,
+              "&:hover": {
+                cursor: "pointer",
+                color: palette.primary.light,
+              },
+            }}
+          >
+            {isLogin
+              ? "Don't have an account? Sign Up here."
+              : "Already have an account? Login here."}
+          </Typography>
+        )}{" "}
+        {isLogin && (
+          <Typography
+            onClick={() => {
+              navigate("/changepass", { state: { page: "enteremail" } });
+            }}
+            sx={{
+              textDecoration: "underline",
+              color: palette.primary.main,
+              "&:hover": {
+                cursor: "pointer",
+                color: palette.primary.light,
+              },
+            }}
+          >
+            Forgot Password ?
+          </Typography>
+        )}
+      </Box>
+    </form>
+  );
+};
+export default Form;
+
+const FormFields = ({
+  onChangehandle,
+  userNames,
+  values,
+  isRegister,
+  isLogin,
+  editProfile,
+  imgChangeHandl,
+}) => {
+  const [addPic, setAddPic] = useState(false);
+  const { palette } = useTheme();
+  return (
+    <>
       {isRegister && (
         <FlexEvenly>
           <TextField
@@ -247,60 +330,6 @@ const Form = ({ pgType, editProfile, user }) => {
           />
         </>
       )}
-      <Box>
-        <Button
-          fullWidth
-          type="submit"
-          sx={{
-            m: "2rem 0",
-            p: "1rem",
-            backgroundColor: palette.primary.main,
-            color: palette.background.alt,
-            "&:hover": { color: palette.primary.main },
-          }}
-        >
-          {isLogin ? "LOGIN" : editProfile ? "Save Changes" : "REGISTER"}
-        </Button>
-        {!editProfile && (
-          <Typography
-            onClick={() => {
-              setPageType(isLogin ? "Register" : "Login");
-              setGetUserNamesOnce(true);
-              resetForm();
-            }}
-            sx={{
-              textDecoration: "underline",
-              color: palette.primary.main,
-              "&:hover": {
-                cursor: "pointer",
-                color: palette.primary.light,
-              },
-            }}
-          >
-            {isLogin
-              ? "Don't have an account? Sign Up here."
-              : "Already have an account? Login here."}
-          </Typography>
-        )}{" "}
-        {isLogin && (
-          <Typography
-            onClick={() => {
-              navigate("/changepass", { state: { page: "enteremail" } });
-            }}
-            sx={{
-              textDecoration: "underline",
-              color: palette.primary.main,
-              "&:hover": {
-                cursor: "pointer",
-                color: palette.primary.light,
-              },
-            }}
-          >
-            Forgot Password ?
-          </Typography>
-        )}
-      </Box>
-    </form>
+    </>
   );
 };
-export default Form;
