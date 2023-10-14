@@ -8,7 +8,7 @@ const UserImg = ({ image, size = "60px" }) => {
         width={size}
         height={size}
         alt="userImage"
-        src={image ? `${process.env.REACT_APP_AUTH_SERVER}/${image}`: '/assets/defaultUserPic.png'}
+        src={image ? `${process.env.REACT_APP_IMG_ORIGIN_URL}/${image}`: '/assets/defaultUserPic.png'}
       />
     </Box>
   );

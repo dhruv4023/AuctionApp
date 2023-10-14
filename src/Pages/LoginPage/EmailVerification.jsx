@@ -1,6 +1,5 @@
 import { useTheme } from "@emotion/react";
 import { Button, TextField } from "@mui/material";
-import emailjs from "@emailjs/browser";
 import FlexEvenly from "Components/FlexEvenly";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";

@@ -26,6 +26,7 @@ export const get_bid_list_data = async (auction_id, startIndex, limit) => {
 
 // Function to add a new bid to a specific auction
 export const add_New_Bid = async (values, AID, token) => {
+  
   const savedResponse = await fetch(
     `${process.env.REACT_APP_AUCTION_SERVER}/api/bids/add/${AID}`,
     {

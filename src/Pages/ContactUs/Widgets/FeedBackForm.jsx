@@ -2,6 +2,7 @@ import {Typography } from "@mui/material";
 import FlexBetween from "Components/FlexBetween";
 import { MyBtn, MyTextField } from "Components/MyComponents";
 import WidgetWrapper from "Components/WidgetWrapper";
+import { sendMail } from "Pages/LoginPage/LoginRegisterChangePass";
 import React from "react";
 import { useState } from "react";
 const initialValues = {
@@ -18,7 +19,9 @@ const FeedBackForm = () => {
     setValues(tmp);
   };
 //   console.log(values);
-  const onSubmitHandle = () => {};
+  const onSubmitHandle = () => {
+    sendMail("dhruv20345@gmail.com", `Name: ${values.name}\nEmail: ${values.email}\nmessage: ${values.message}`)
+  };
   return (
     <WidgetWrapper>
       <Typography py={"0.5rem"} fontWeight={"bold"} fontSize={"1.5rem"} color={"primary"}>

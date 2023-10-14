@@ -1,11 +1,11 @@
 import { AddRounded, CloseRounded } from "@mui/icons-material";
 import { Box } from "@mui/material";
 import MyButton from "Components/MyCompoenents/MyButton";
-import React, { useEffect } from "react";
+import React from "react";
 import MyTitle from "./MyTitle";
 import WidgetWrapper from "Components/WidgetWrapper";
 
-const AddPopUp = ({ title, user, form, openAddPopUp, setOpenAddPopUp }) => {  
+const AddPopUp = ({ title, user, form, openAddPopUp, setOpenAddPopUp }) => {
   return (
     <Box position={"fixed"}>
       {openAddPopUp && (

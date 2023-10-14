@@ -4,8 +4,10 @@ import { DateTimeField, MyTextField } from "Components/MyComponents";
 import React, { useState } from "react";
 import { startNewAuction } from "../auctionApi";
 import { MXMNDate } from "state/globalFunctions";
+import { useSelector } from "react-redux";
 
 const NewAuctionForm = ({ user, setOpenAddPopUp }) => {
+  const token = useSelector((s) => s.token);
   const [Loading, setLoading] = useState(false);
   const [values, setValues] = useState({ user_id: user._id });
   const onChangehandle = (val, name) => {
@@ -16,7 +18,7 @@ const NewAuctionForm = ({ user, setOpenAddPopUp }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    startNewAuction(values)
+    startNewAuction(values, token)
       .then(() => {
         setLoading(false);
         setOpenAddPopUp(false);

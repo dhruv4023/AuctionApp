@@ -14,11 +14,7 @@ import Dropzone from "react-dropzone";
 import FlexBetween from "Components/FlexBetween";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import FlexEvenly from "Components/FlexEvenly";
-import {
-  getUserNames,
-  login,
-  updateProfile,
-} from "./LoginRegisterChangePass";
+import { getUserNames, login, updateProfile } from "./LoginRegisterChangePass";
 import { SelectLocation } from "../../Components/MyComponents";
 import { CheckBox, CheckBoxOutlineBlank } from "@mui/icons-material";
 import Loading from "Components/Loader/Loading";
@@ -40,7 +36,7 @@ const Form = ({ pgType, editProfile, user }) => {
     },
   };
   const initialValuesLogin = {
-    email: "",
+    uid: "",
     password: "",
   };
 
@@ -135,7 +131,11 @@ const Form = ({ pgType, editProfile, user }) => {
           required
           type={isRegister ? "email" : "text"}
           label={isLogin ? "Email or Username" : "Email"}
-          onChange={(e) => onChangehandle(e.target.value, "email")}
+          onChange={(e) =>
+            isLogin
+              ? onChangehandle(e.target.value, "uid")
+              : onChangehandle(e.target.value, "email")
+          }
           value={values.email}
           name="email"
           sx={{ margin: "0.5rem", width: "100%" }}

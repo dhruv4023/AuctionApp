@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AddPopUp from "Components/MyCompoenents/AddPopUp";
 import { useSelector } from "react-redux";
 import NewBidForm from "./NewBidForm";

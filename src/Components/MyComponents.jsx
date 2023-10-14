@@ -5,13 +5,10 @@ import {
   Button,
   TextField,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import { City } from "country-state-city";
 import React, { useEffect, useState } from "react";
-import FlexBetween from "./FlexBetween";
 import FlexEvenly from "./FlexEvenly";
-import { MXMNDate } from "state/globalFunctions";
 export const SelectAutoComplete = ({
   msg,
   setInputVal,
@@ -60,7 +57,6 @@ export const SelectLocation = ({ location, inputValues }) => {
   const initialLocation = {
     city: location ? location.city : "",
     pincode: location ? location.pincode : "",
-    district: location ? location.district : "",
     state: "Gujarat",
   };
   // console.log(location);
@@ -88,14 +84,6 @@ export const SelectLocation = ({ location, inputValues }) => {
           disabled={true}
           sx={{ flexGrow: 1 }}
         />
-        {/* <TextField
-          required
-          label="District"
-          onChange={(e) => onChangehandle(e.target.value, "district")}
-          name="district"
-          value={values.district}
-          sx={{ margin: "0.5rem", width: "100%" }}
-        /> */}
         <Box sx={{ flexGrow: 1 }}>
           <SelectAutoComplete
             label={"city"}
@@ -106,14 +94,6 @@ export const SelectLocation = ({ location, inputValues }) => {
               .filter((f) => !f.includes(","))}
           />
         </Box>
-        {/* <TextField
-              required
-              label="City"
-              onChange={(e) => onChangehandle(e.target.value, "city")}
-              name="city"
-              value={values.city}
-              sx={{ margin: "0.5rem", width: "100%" }}
-            /> */}
         <TextField
           required
           inputProps={{

@@ -1,9 +1,14 @@
 import { useTheme } from "@emotion/react";
-import { LoadingButton } from "@mui/lab";
 import { Button } from "@mui/material";
 import React from "react";
 
-const MyButton = ({disabled=false, label, onclickHandle, fullwidth=true,borderRadius }) => {
+const MyButton = ({
+  disabled = false,
+  label,
+  onclickHandle,
+  fullwidth = true,
+  borderRadius,
+}) => {
   const theme = useTheme();
   return (
     <Button
@@ -14,7 +19,7 @@ const MyButton = ({disabled=false, label, onclickHandle, fullwidth=true,borderRa
       sx={{
         m: "1.2rem 0",
         p: "1rem",
-        borderRadius:borderRadius,
+        borderRadius: borderRadius,
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.neutral.light,
         "&:hover": { color: theme.palette.primary.main },

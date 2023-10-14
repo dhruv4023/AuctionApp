@@ -58,12 +58,14 @@ export const get_auctions_by_user = async (token, startIndex, limit) => {
 };
 
 // Sends a request to start a new auction
-export const startNewAuction = async (values) => {
+export const startNewAuction = async (values, token) => {
+  // console.log(token);
   const savedResponse = await fetch(
     `${process.env.REACT_APP_AUCTION_SERVER}/api/auction/add/`,
     {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(values),
