@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import AddPopUp from "Components/MyCompoenents/AddPopUp";
-import { useSelector } from "react-redux";
 import NewAuctionForm from "./Widgets/NewAuctionForm";
 
-const AddAuction = () => {
-  // Get user information from Redux store
-  const user = useSelector((s) => s.user);
+const AddAuction = ({user}) => {
 
   // State to control the visibility of the add auction pop-up dialog
   const [openAddPopUp, setOpenAddPopUp] = useState(false);

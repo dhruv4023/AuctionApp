@@ -38,13 +38,12 @@ export const getAuctionOnGoingData = async (startIndex, limit) => {
 };
 
 // Fetches auctions by a specific user, requiring an authentication token
-export const get_auctions_by_user = async (token, startIndex, limit) => {
+export const get_auctions_by_user = async (username, startIndex, limit) => {
   const res = await fetch(
-    `${process.env.REACT_APP_AUCTION_SERVER}/api/auction/get/${startIndex}/${limit}`,
+    `${process.env.REACT_APP_AUCTION_SERVER}/api/auction/get/byuser/${username}/${startIndex}/${limit}`,
     {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     }

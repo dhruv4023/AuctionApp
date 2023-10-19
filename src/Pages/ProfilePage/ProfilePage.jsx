@@ -16,7 +16,7 @@ export const ProfilePage = () => {
   const { UID } = useParams();
   const [user, setUser] = useState(null);
   const admin = useSelector((state) => state.user);
-
+  // console.log(admin?.username,user?.username)
   // Use the useEffect hook to fetch user data based on the UID parameter
   useEffect(() => {
     UID && getUser(setUser, UID, navigate);
@@ -46,16 +46,17 @@ export const ProfilePage = () => {
             <>
               {/* Render EditProfileWidget component with specific props */}
               <EditProfileWidget setEditProf={setEditProf} user={admin} />
-            </>):(
+            </>
+          ) : (
             <>
               {/* Render Auctions component with specific props */}
-              <Auctions displayIndex={4} />
+              {user && <Auctions displayIndex={4} username={user?.username} />}
             </>
           )
         }
       />
       {/* Render AddAuction component */}
-      <AddAuction />
+      {admin?.username === UID && <AddAuction user={admin} />}
     </>
   );
 };

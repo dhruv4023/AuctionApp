@@ -32,14 +32,11 @@ const UserWidgets = ({ user, admin, setEditProf }) => {
     location,
     // impressions,
   } = user;
+  console.log(picPath);
   return (
     <WidgetWrapper>
       <FlexBetween gap={"1rem"} pb="1.1rem">
-        {picPath ? (
-          <UserImg image={picPath} />
-        ) : (
-          <UserImg image={`user/img/${username}`} />
-        )}
+        <UserImg image={picPath} />
         <Box flexGrow={"1"}>
           <IconButton onClick={() => navigate(`/profile/${username}`)}>
             <Typography

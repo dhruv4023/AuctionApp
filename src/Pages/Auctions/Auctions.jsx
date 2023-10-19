@@ -15,9 +15,8 @@ import { Box, IconButton, Tooltip } from "@mui/material";
 
 const limit = 6; // Maximum number of auctions to fetch in one request
 
-const Auctions = ({ displayIndex }) => {
+const Auctions = ({ displayIndex, username }) => {
   const [data, setData] = useState(); // State to store auction data
-  const token = useSelector((s) => s.token); // Retrieve the user's token from Redux state
   const [endOdList, setEndOdList] = useState(false); // State to track if all auction data is retrieved
   const [startIndex, setStartIndex] = useState(limit); // State to track the starting index for fetching auctions
   const [loading, setLoading] = useState(false); // State to track loading state while fetching auctions
@@ -34,7 +33,7 @@ const Auctions = ({ displayIndex }) => {
     } else if (displayIndex === 3) {
       return getAuctionEndedData(s, l); // Fetch ended auctions
     } else if (displayIndex === 4) {
-      return get_auctions_by_user(token, s, l); // Fetch auctions by the logged-in user
+      return get_auctions_by_user(username, s, l); // Fetch auctions by the logged-in user
     }
   };
 
@@ -69,31 +68,29 @@ const Auctions = ({ displayIndex }) => {
   return (
     <>
       <FlexBetween my={3}>
-        <Box></Box>
+        <Box>{endOdList && <b>All Auction Data retrieved</b>}</Box>
         <Tooltip title="Retrieve more Auction data">
-          <IconButton onClick={refresh}>
+          <IconButton onClick={refresh} disabled={endOdList}>
             <Refresh />
           </IconButton>
         </Tooltip>
       </FlexBetween>
       <FlexEvenly gap={1} flexWrap={"wrap"}>
-        {loading && (
+        {loading ? (
           <>
             <Loading />
           </>
-        )}
-        {data ? (
+        ) : data ? (
           <>
             {data.map((m, i) => (
               <AuctionN key={m._id} data={m} />
             ))}
           </>
         ) : (
-          <>No auctions</>
+          <>
+            <>No auctions</>
+          </>
         )}
-      </FlexEvenly>
-      <FlexEvenly my={5}>
-        {endOdList && <b>All Auction Data retrieved</b>}
       </FlexEvenly>
     </>
   );

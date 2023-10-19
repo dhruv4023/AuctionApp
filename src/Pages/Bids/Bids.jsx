@@ -47,9 +47,15 @@ const Bids = ({ AID, bidList, setBidList }) => {
     <WidgetWrapper>
       <FlexBetween>
         <MyTitle txt={"Bids"} />
+        {endOdList && (
+          <>
+            <div style={{ width: "100%" }}></div>
+            <b style={{"width":"12rem", margin: "0.2rem 0.5rem" }}>All Bids retrieved</b>
+          </>
+        )}
         {/* Button to refresh and retrieve more bids */}
         <Tooltip title="Retrieve more bids data">
-          <IconButton onClick={refresh}>
+          <IconButton onClick={refresh} disabled={endOdList}>
             <Refresh />
           </IconButton>
         </Tooltip>
@@ -63,10 +69,6 @@ const Bids = ({ AID, bidList, setBidList }) => {
           <PrintList data={bidList} />
         </>
       )}
-      <FlexEvenly my={5}>
-        {/* Display a message when all bids have been retrieved */}
-        {endOdList && <b>All Bids retrieved</b>}
-      </FlexEvenly>
     </WidgetWrapper>
   );
 };
