@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddPopUp from "Components/MyCompoenents/AddPopUp";
 import { useSelector } from "react-redux";
 import NewBidForm from "./NewBidForm";
@@ -9,6 +9,8 @@ const AddNewBid = ({ start_price, AID, setRefresh, bidList }) => {
 
   // State to control the visibility of the add bid pop-up
   const [openAddPopUp, setOpenAddPopUp] = useState(false);
+
+  useEffect(() => {}, [openAddPopUp]);
 
   return (
     <AddPopUp

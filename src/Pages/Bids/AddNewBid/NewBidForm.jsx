@@ -23,7 +23,7 @@ const NewBidForm = ({
     tmp[name] = val;
     setValues(tmp);
   };
-
+  // console.log(bidList);
   // Function to handle form submission
   const onSubmit = (e) => {
     e.preventDefault();
@@ -37,6 +37,7 @@ const NewBidForm = ({
           setOpenAddPopUp(false); // Close the bid pop-up
           // Add the newly created bid to the bidList with timestamp and user information
           bidList.unshift({
+            _id: String(new Date().getMilliseconds()),
             ...values,
             timestamp: new Date(),
             user_id: { name: user.firstName + " " + user.lastName },

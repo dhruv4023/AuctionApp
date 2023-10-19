@@ -39,6 +39,6 @@ export const add_New_Bid = async (values, AID, token) => {
     }
   );
   const res = await savedResponse.json();
-  alert(res.msg); // Display a message to the user
+  // alert(res.msg); // Display a message to the user
   return res;
 };

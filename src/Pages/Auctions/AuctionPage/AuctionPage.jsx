@@ -12,10 +12,13 @@ import WidgetsOnPage from "Components/WidgetsOnPage";
 import AddNewBid from "Pages/Bids/AddNewBid/AddNewBid";
 import CountDown from "Components/MyCompoenents/CountDown";
 import moment from "moment/moment";
+import { useSelector } from "react-redux";
 
 const AuctionPage = () => {
   // Get the auction ID from the URL using the useParams hook
   const { AID } = useParams();
+
+  const user = useSelector((s) => s.user);
 
   // State to store auction data
   const [auxdata, setAuxdata] = useState();
@@ -37,7 +40,7 @@ const AuctionPage = () => {
         setCountDown(new Date(dt[0]?.start_time) > new Date());
       });
   }, [AID, refresh]);
-
+  // console.log(auxdata);
   return (
     <>
       <WidgetsOnPage
@@ -88,7 +91,8 @@ const AuctionPage = () => {
         }
       />
       {/* Display add new bid component if the auction is ongoing */}
-      {new Date(auxdata?.start_time) < new Date() &&
+      {auxdata?.created_by?._id !== user?.username &&
+        new Date(auxdata?.start_time) < new Date() &&
         new Date(auxdata?.end_time) > new Date() && (
           <AddNewBid
             start_price={auxdata?.start_price}
