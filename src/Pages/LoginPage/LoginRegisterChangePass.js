@@ -27,7 +27,7 @@ export const register = async (values) => {
   const res = await savedUserResponse.json();
 
   // Display an alert message to the user based on the server's response.
-  alert(res.msg);
+  return (res.msg);
 };
 
 // Function to log in a user
@@ -103,7 +103,7 @@ export const updateProfile = async (values, dispatch, token, navigate) => {
       })
     ) && navigate(`/profile/${savedUser.user.username}`);
   } else {
-    alert(savedUser);
+    return (savedUser);
   }
 };
 /**

@@ -29,7 +29,7 @@ const EmailVerification = () => {
   const [otp, setOtp] = useState(0);
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     if (String(otp).trim() === String(sentOtp)) {
@@ -40,11 +40,11 @@ const EmailVerification = () => {
         });
       } else if (!values._id) {
         // Handle registration
-        register(values, dispatch, navigate);
+        alert(await register(values, dispatch, navigate));
         navigate("/login", { state: null });
       } else {
         // Handle profile update
-        updateProfile(values, dispatch, token, navigate);
+        alert(await updateProfile(values, dispatch, token, navigate));
       }
     } else {
       alert("Invalid OTP");
@@ -80,7 +80,7 @@ const EmailVerification = () => {
     }, 1000);
   };
 
-  console.log(loading);
+  // console.log(loading);
   return (
     <>
       Email OTP Verification

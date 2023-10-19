@@ -84,7 +84,7 @@ const Form = ({ pgType, editProfile, user }) => {
       alert("Please select a unique username.");
     } else if (editProfile && values.email === user.email) {
       // Handle profile update
-      updateProfile(values, dispatch, token, navigate);
+      alert(await updateProfile(values, dispatch, token, navigate));
     } else {
       // Navigate to email verification if registering
       navigate("/verifyemail", { state: values });
@@ -115,6 +115,8 @@ const Form = ({ pgType, editProfile, user }) => {
           isRegister={isRegister}
           userNames={userNames}
           isLogin={isLogin}
+          imgChangeHandl={imgChangeHandl}
+          editProfile={editProfile}
         />
       )}
       <Box>
