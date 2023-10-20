@@ -74,3 +74,39 @@ export const startNewAuction = async (values, token) => {
   alert(res.msg);
   return res;
 };
+
+// Sends a request to Edit a new auction
+export const EditAuction = async (values, token, id) => {
+  // console.log(token);
+  const savedResponse = await fetch(
+    `${process.env.REACT_APP_AUCTION_SERVER}/api/auction/update/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    }
+  );
+  const res = await savedResponse.json();
+  alert(res.msg);
+  return res;
+};
+
+// Sends a request to Delete a new auction
+export const DelAuction = async (token, id) => {
+  // console.log(token);
+  const deleteResponse = await fetch(
+    `${process.env.REACT_APP_AUCTION_SERVER}/api/auction/delete/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const res = await deleteResponse.json();
+  return res;
+};

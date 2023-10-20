@@ -1,11 +1,5 @@
 import { useTheme } from "@emotion/react";
-import {
-  Autocomplete,
-  Box,
-  Button,
-  TextField,
-  Tooltip,
-} from "@mui/material";
+import { Autocomplete, Box, Button, TextField, Tooltip } from "@mui/material";
 import { City } from "country-state-city";
 import React, { useEffect, useState } from "react";
 import FlexEvenly from "./FlexEvenly";
@@ -165,11 +159,12 @@ export const DateTimeField = ({
   setInputVal,
   mnDate,
   mxDate,
+  oldVals,
   disabled,
 }) => {
   const [values, setValues] = useState({
+    // date: new Date().toISOString().substring(0, 10),
     time: "00:00",
-    date: new Date().toISOString().substring(0, 10),
   });
   const onChangehandle = (val, name) => {
     let tmp = { ...values };
@@ -187,6 +182,7 @@ export const DateTimeField = ({
           key={name + "date"}
           onChange={(e) => onChangehandle(e.target.value, "date")}
           name={"Name"}
+          value={oldVals && String(oldVals).substring(0, 10)}
           required
           fullWidth
           disabled={disabled}
@@ -200,6 +196,7 @@ export const DateTimeField = ({
         />
         <TextField
           key={name + "time"}
+          value={oldVals && String(oldVals).substring(11, 16)}
           onChange={(e) => onChangehandle(e.target.value, "time")}
           name={"Name"}
           required

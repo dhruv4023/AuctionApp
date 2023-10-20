@@ -5,7 +5,15 @@ import React from "react";
 import MyTitle from "./MyTitle";
 import WidgetWrapper from "Components/WidgetWrapper";
 
-const AddPopUp = ({ title, user, form, openAddPopUp, setOpenAddPopUp }) => {
+const AddPopUp = ({
+  title,
+  user,
+  form,
+  openAddPopUp,
+  setOpenAddPopUp,
+  buttonIcon = <AddRounded />,
+  defaultButton = true,
+}) => {
   return (
     <Box position={"fixed"}>
       {openAddPopUp && (
@@ -25,18 +33,20 @@ const AddPopUp = ({ title, user, form, openAddPopUp, setOpenAddPopUp }) => {
           </Box>
         </Box>
       )}
-      <Box right={20} bottom={5} position={"inherit"}>
-        <MyButton
-          onclickHandle={() => {
-            user
-              ? setOpenAddPopUp(!openAddPopUp)
-              : alert("Login to start Auction");
-          }}
-          fullwidth={false}
-          label={openAddPopUp ? <CloseRounded /> : <AddRounded />}
-          borderRadius={"100%"}
-        />
-      </Box>
+      {defaultButton && (
+        <Box right={20} bottom={5} position={"inherit"}>
+          <MyButton
+            onclickHandle={() => {
+              user
+                ? setOpenAddPopUp(!openAddPopUp)
+                : alert("Login to start Auction");
+            }}
+            fullwidth={false}
+            label={openAddPopUp ? <CloseRounded /> : <>{buttonIcon}</>}
+            borderRadius={"100%"}
+          />
+        </Box>
+      )}
     </Box>
   );
 };

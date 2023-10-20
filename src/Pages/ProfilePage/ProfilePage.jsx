@@ -1,7 +1,7 @@
 // Import necessary dependencies and components
 import Loading from "Components/Loader/Loading";
 import WidgetsOnPage from "Components/WidgetsOnPage";
-import AddAuction from "Pages/Auctions/AddAuction";
+import AddAuction from "Pages/Auctions/PopUps/AddAuction";
 import Auctions from "Pages/Auctions/Auctions";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";

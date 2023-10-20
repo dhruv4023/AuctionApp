@@ -32,7 +32,7 @@ const UserWidgets = ({ user, admin, setEditProf }) => {
     location,
     // impressions,
   } = user;
-  console.log(picPath);
+  // console.log(picPath);
   return (
     <WidgetWrapper>
       <FlexBetween gap={"1rem"} pb="1.1rem">

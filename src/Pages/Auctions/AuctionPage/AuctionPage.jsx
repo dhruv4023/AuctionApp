@@ -1,9 +1,9 @@
 import FlexBetween from "Components/FlexBetween";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { get_auction_data_by_ID } from "./AuctionPageApi";
 import WidgetWrapper from "Components/WidgetWrapper";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, IconButton } from "@mui/material";
 import Loading from "Components/Loader/Loading";
 import MyTitle from "Components/MyCompoenents/MyTitle";
 import Bids from "Pages/Bids/Bids";
@@ -13,6 +13,10 @@ import AddNewBid from "Pages/Bids/AddNewBid/AddNewBid";
 import CountDown from "Components/MyCompoenents/CountDown";
 import moment from "moment/moment";
 import { useSelector } from "react-redux";
+import { DeleteForever, ModeEditOutline } from "@mui/icons-material";
+import FlexEvenly from "Components/FlexEvenly";
+import EditAuction from "../PopUps/EditAuction";
+import { DelAuction } from "../auctionApi";
 
 const AuctionPage = () => {
   // Get the auction ID from the URL using the useParams hook
@@ -79,7 +83,7 @@ const AuctionPage = () => {
             {auxdata ? (
               <>
                 {/* Display auction details */}
-                <DisplayData data={auxdata} />
+                <DisplayData user={user} data={auxdata} />
               </>
             ) : (
               // Display loading component while fetching data
@@ -108,7 +112,18 @@ const AuctionPage = () => {
 export default AuctionPage;
 
 // Display auction details component
-const DisplayData = ({ data }) => {
+const DisplayData = ({ user, data }) => {
+  const token = useSelector((s) => s.token);
+  const navigate = useNavigate();
+  const onTrash = () => {
+    DelAuction(token, data._id)
+      .then((s) => {
+        navigate("/");
+        alert(s.msg);
+      })
+      .catch((e) => alert("Failed to delete"));
+  };
+
   return (
     <FlexBetween flexDirection={"column"}>
       <MyTitle txt="Auction Details" />
@@ -121,6 +136,27 @@ const DisplayData = ({ data }) => {
       <NItem label="End Time" item={formatTimestamp(data.end_time).time} />
       <Divider />
       <NItem label="Started By" item={data.created_by.name} />
+      {data.created_by._id === user?.username &&
+        new Date(data?.start_time) > new Date() && (
+          <FlexEvenly width={"100%"} margin={"1rem 0 0 0"}>
+            <IconButton
+              onClick={onTrash}
+              sx={{
+                m: "2rem 0",
+                backgroundColor: "red",
+                color: "White",
+                "&:hover": {
+                  // color: theme.palette.primary.main,
+                  backgroundColor: "#800b0b",
+                },
+              }}
+            >
+              <DeleteForever color="red" />
+            </IconButton>
+          </FlexEvenly>
+        )}
+
+      <EditAuction user={user} data={data} />
     </FlexBetween>
   );
 };

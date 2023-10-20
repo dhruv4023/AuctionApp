@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AddPopUp from "Components/MyCompoenents/AddPopUp";
-import NewAuctionForm from "./Widgets/NewAuctionForm";
+import NewEditAuctionForm from "./NewAuctionForm";
 
 const AddAuction = ({user}) => {
 
@@ -15,7 +15,7 @@ const AddAuction = ({user}) => {
       openAddPopUp={openAddPopUp}
       setOpenAddPopUp={setOpenAddPopUp}
       // Render the NewAuctionForm component within the pop-up dialog
-      form={<NewAuctionForm user={user} openAddPopUp={openAddPopUp} />}
+      form={<NewEditAuctionForm user={user} openAddPopUp={openAddPopUp} />}
     />
   );
 };
